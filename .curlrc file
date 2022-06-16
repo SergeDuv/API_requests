@@ -1,0 +1,19 @@
+Set up a .curlrc file
+Curl is an excellent tool for making API requests, but the default response format is fairly complex. You can add parameters that are automatically used for every request by specifying a .curlrc file in your home directory.
+
+In Cloud Shell, execute the following commands:
+
+cd ~
+cat > .curlrc <<EOF
+-w "\n"
+silent
+-D /dev/stderr
+EOF
+
+
+This set of commands:
+
+Adds a newline character at the end of the response, which avoids having the next shell prompt end up on the same line as the last line of the curl response.
+Disables the progress meter when piping the response to another command.
+Writes the headers to standard error so that they are printed on the screen and not piped to another command.
+With these options set, a curl command that is piped to jq, a JSON processor that pretty prints its input, will be very easy to read. The first line of the response shows the status code that was returned (200). The next lines show headers that were received with the response. Finally, the colorized output is pretty-printed JSON from the response.
